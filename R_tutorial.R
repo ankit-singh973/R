@@ -58,3 +58,33 @@ var_tb %>% filter(SAMPLE == "SRR13500958") %>% select(CHROM, POS, REF, ALT) %>% 
 
 # To select only values for which DP>=500 for the same sample
 var_tb %>% filter(SAMPLE == "SRR13500958" & DP>=500) %>% select(CHROM, POS, REF, ALT, DP)
+
+# To select only values for which DP>=1000 for the same sample
+var_tb %>% filter(SAMPLE == "SRR13500958" & DP>=1000) %>% select(CHROM, POS, REF, ALT, DP)
+
+# Count how many rows associated with eah sample id
+var_tb %>% count(SAMPLE, sort = TRUE)
+
+var_tb %>% count(SAMPLE, GENE, sort = TRUE) %>% head()
+
+# Maximum value of column DP
+max(var_tb$DP)
+
+# Minimum value of column DP
+min(var_tb$DP)
+
+# Mean value of column DP
+mean(var_tb$DP)
+
+# Compute a LOG2 transformation on the DP values
+var_tb_log <- var_tb %>% mutate(DP_log2 = log2(DP))
+head(var_tb_log)
+
+# View a selected content including the new column
+select(var_tb_log, SAMPLE, REF, ALT, DP, DP_log2) %>% head()
+
+# Show the maximum value of DP for each sample
+var_tb %>% group_by(SAMPLE) %>% summarize(max(DP))
+
+# with min DP
+var_tb %>% group_by(SAMPLE) %>% summarize(min(DP))
